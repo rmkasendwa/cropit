@@ -354,14 +354,55 @@ class Cropit {
 		return this.zoomer.isZoomable();
 	}
 	get rotatedOffset() {
-		return {
-			x: this.offset.x +
-				(this.rotation === 90 ? this.image.height * this.zoom : 0) +
-				(this.rotation === 180 ? this.image.width * this.zoom : 0),
-			y: this.offset.y +
-				(this.rotation === 180 ? this.image.height * this.zoom : 0) +
-				(this.rotation === 270 ? this.image.width * this.zoom : 0),
+		const rotatedOffset = {
+			x: this.offset.x,
+			y: this.offset.y
 		};
+		switch (this.rotation) {
+			case 90:
+				rotatedOffset.x += this.image.height * this.zoom;
+				break;
+			case 180:
+				rotatedOffset.x += this.image.width * this.zoom;
+				rotatedOffset.y += this.image.height * this.zoom;
+				break;
+			case 270:
+				rotatedOffset.y += this.image.width * this.zoom;
+				break;
+		}
+		if (this.horizontalFlipFactor === -1) {
+			switch (this.rotation) {
+				case 0:
+					rotatedOffset.x += this.image.width * this.zoom;
+					break;
+				case 90:
+					rotatedOffset.x -= this.image.height * this.zoom;
+					break;
+				case 180:
+					rotatedOffset.x -= this.image.width * this.zoom;
+					break;
+				case 270:
+					rotatedOffset.x += this.image.height * this.zoom;
+					break;
+			}
+		};
+		if (this.verticalFlipFactor === -1) {
+			switch (this.rotation) {
+				case 0:
+					rotatedOffset.y += this.image.height * this.zoom;
+					break;
+				case 90:
+					rotatedOffset.y += this.image.width * this.zoom;
+					break;
+				case 180:
+					rotatedOffset.y -= this.image.height * this.zoom;
+					break;
+				case 270:
+					rotatedOffset.y -= this.image.width * this.zoom;
+					break;
+			}
+		};
+		return rotatedOffset;
 	}
 	renderImage() {
 		const transformation = `
@@ -483,15 +524,8 @@ class Cropit {
 			this.rotatedOffset.y * exportZoom
 		);
 		canvasContext.rotate(this.rotation * Math.PI / 180);
-		const posX = this.horizontalFlipFactor === 1 ? 0 : -1;
-		const posY = this.verticalFlipFactor === 1 ? 0 : -1;
-		canvasContext.drawImage(
-			this.image,
-			posX * zoomedSize.width,
-			posY * zoomedSize.height,
-			zoomedSize.width,
-			zoomedSize.height
-		);
+		canvasContext.scale(this.horizontalFlipFactor, this.verticalFlipFactor);
+		canvasContext.drawImage(this.image, 0, 0, zoomedSize.width, zoomedSize.height);
 		return canvas.toDataURL(exportOptions.type, exportOptions.quality);
 	}
 	get imageState() {
