@@ -146,9 +146,7 @@ class Cropit {
 		this.$preview.removeClass(CLASS_NAMES.DRAG_HOVERED);
 	}
 	loadImage(imageSrc) {
-		if (!imageSrc) {
-			return;
-		}
+		if (!imageSrc) return;
 		this.options.onImageLoading();
 		this.setImageLoadingClass();
 		if (imageSrc.indexOf('data') === 0) {
@@ -161,6 +159,9 @@ class Cropit {
 					return;
 				}
 				this.loadFile(e.target.response);
+			};
+			xhr.onerror = error => {
+				this.onImageError.call(this, ERRORS.IMAGE_FAILED_TO_LOAD);
 			};
 			xhr.open('GET', imageSrc);
 			xhr.responseType = 'blob';
