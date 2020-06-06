@@ -112,8 +112,8 @@ class Cropit {
 		}
 	}
 	loadFile(file) {
-		const fileReader = new FileReader();
 		if (file && file.type.match('image')) {
+			const fileReader = new FileReader();
 			fileReader.readAsDataURL(file);
 			fileReader.onload = this.onFileReaderLoaded.bind(this);
 			fileReader.onerror = this.onFileReaderError.bind(this);
@@ -299,14 +299,10 @@ class Cropit {
 		};
 	}
 	onZoomSliderChange() {
-		if (!this.imageLoaded) {
-			return;
-		}
+		if (!this.imageLoaded) return;
 		this.zoomSliderPos = Number(this.$zoomSlider.val());
 		const newZoom = this.zoomer.getZoom(this.zoomSliderPos);
-		if (newZoom === this.zoom) {
-			return;
-		}
+		if (newZoom === this.zoom) return;
 		this.zoom = newZoom;
 	}
 	enableZoomSlider() {
@@ -345,7 +341,7 @@ class Cropit {
 			this._zoom = newZoom;
 		}
 		this.zoomSliderPos = this.zoomer.getSliderPos(this.zoom);
-		this.$zoomSlider.val(this.zoomSliderPos);
+		this.$zoomSlider.val(this.zoomSliderPos).trigger('change');
 		this.options.onZoomChange(newZoom);
 	}
 	fixZoom(zoom) {

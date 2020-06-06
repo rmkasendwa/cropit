@@ -13,13 +13,13 @@ module.exports = {
 		library: 'cropit',
 		libraryTarget: 'umd',
 	},
-	// module: {
-	// 	loaders: [{
-	// 		test: /\.js$/,
-	// 		exclude: /node_modules/,
-	// 		loader: 'babel-loader?blacklist[]=strict',
-	// 	}, ],
-	// },
+	module: {
+		rules: [{
+			test: /\.js$/,
+			exclude: /node_modules/,
+			loader: 'babel-loader?blacklist[]=strict',
+		}]
+	},
 	externals: {
 		jquery: {
 			root: 'jQuery',

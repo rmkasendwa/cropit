@@ -59,11 +59,29 @@ const prop = ($el, name, value) => {
 $.fn.cropit = function(method) {
 	if (methods[method]) {
 		return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-	} else if (['imageState', 'imageSrc', 'offset', 'previewSize', 'imageSize', 'zoom',
-			'initialZoom', 'exportZoom', 'minZoom', 'maxZoom'
+	} else if ([
+			'imageState',
+			'imageSrc',
+			'offset',
+			'previewSize',
+			'imageSize',
+			'zoom',
+			'initialZoom',
+			'exportZoom',
+			'minZoom',
+			'maxZoom',
+			'rotation',
+			'horizontalFlipFactor',
+			'verticalFlipFactor'
 		].includes(method)) {
 		return prop(this, ...arguments);
-	} else if (['rotateCW', 'rotateCCW', 'flipH', 'flipV', 'disable', 'reenable'].includes(method)) {
+	} else if (['rotateCW',
+			'rotateCCW',
+			'flipH',
+			'flipV',
+			'disable',
+			'reenable'
+		].includes(method)) {
 		return delegate(this, ...arguments);
 	} else {
 		return methods.init.apply(this, arguments);
