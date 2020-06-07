@@ -17,7 +17,17 @@ module.exports = {
 		rules: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
-			loader: 'babel-loader?blacklist[]=strict',
+			use: {
+				loader: 'babel-loader',
+				options: {
+					presets: ["@babel/preset-env"],
+					plugins: [
+						"@babel/plugin-syntax-class-properties",
+						"@babel/plugin-proposal-class-properties",
+						"@babel/plugin-proposal-object-rest-spread"
+					]
+				}
+			}
 		}]
 	},
 	externals: {
