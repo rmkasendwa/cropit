@@ -3,7 +3,7 @@ import Zoomer from './Zoomer';
 import { CLASS_NAMES, ERRORS, EVENTS } from './constants';
 import { loadDefaults } from './options';
 import { exists, round } from './utils';
-class Cropit {
+export default class Cropit {
   constructor(jQuery, element, options) {
     this.$el = $(element);
     const defaults = loadDefaults(this.$el);
@@ -685,4 +685,3 @@ class Cropit {
     return this.$el.find(selector);
   }
 }
-export default Cropit;

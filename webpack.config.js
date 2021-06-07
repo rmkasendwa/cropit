@@ -37,8 +37,6 @@ module.exports = {
     },
   },
   plugins: [
-    new BannerPlugin(
-      pkg.name + ' - v' + pkg.version + ' <' + pkg.homepage + '>'
-    ),
+    new BannerPlugin(`${pkg.name} - v${pkg.version} <${pkg.homepage}>`),
   ],
 };
